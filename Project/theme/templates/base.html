@@ -1,0 +1,45 @@
+{% load static tailwind_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Breed Identification</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    {% tailwind_css %}
+  </head>
+  <body>
+    <nav class="flex justify-around bg-green-900 text-neutral-50 h-12 items-center" style="font-family: Poppins;">
+		<h1 class="font-semibold text-4xl">Hello, {{ user.first_name }}!</h1>
+		<div class="w-[12rem] flex justify-around text-2xl">
+			{% if user.is_authenticated %}
+            <a class="hover:text-blue-600 duration-300" href="logout">Logout</a>
+			{% else %}
+			<a class="hover:text-blue-600 duration-300" href="login">Login</a>
+			<p class="select-none"> | </p>
+			<a class='hover:text-blue-600 duration-300' href="register">Register</a>
+			{% endif %}
+		</div>		
+	</nav>
+	<section class="relative h-[93vh] bg-cover bg-no-repeat opacity-70 flex justify-center" style="background-image: url('{% static 'img/cat.png' %}');">
+		<div class="absolute flex flex-col justify-center items-center top-[30%]" style="backdrop-filter: blur(1px);">
+		  <h1 class="text-[50px] w-auto font-bold text-center mb-5">
+			Discover the perfect pet
+		  </h1>
+		  <p class="text-lg text-center font-semibold text-[18px] w-2/3" style="font-family: Nanum Myeongjo;">
+			Find your ideal companion with our cat dog classifier. Get matched with
+			your perfect furry friend today!
+		  </p>
+		  <button class="mt-[5rem] bg-indigo-950 text-neutral-100 p-3 rounded shadow-2xl transition-transform duration-300 ease-in-out hover:scale-110 hover:bg-green-600">
+			Get Started
+		  </button>	  
+		</div>
+	  </section>
+  </body>
+</html>
