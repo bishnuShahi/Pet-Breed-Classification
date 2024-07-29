@@ -78,3 +78,4 @@ class RegisterForm(forms.Form):
         
         if password and confirm_password and (confirm_password != password):
             self.add_error(None, 'Passwords do not match!')
+            
