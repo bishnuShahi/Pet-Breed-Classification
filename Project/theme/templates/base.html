@@ -13,6 +13,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     {% tailwind_css %}
   </head>
   <body class="overflow-hidden">
@@ -37,32 +38,49 @@
 				Find your ideal companion with our breed classifier. Get the possible breeds of your pet!
 		  	</p>
 		  	<button onclick="showModal()" class="mt-[5rem] bg-yellow-950 text-neutral-100 p-3 rounded shadow-2xl transition-transform duration-600 ease-in-out hover:scale-110 hover:bg-yellow-900">
-				Predict
+				What's My Dog's Breed?
 		  	</button>
-
-		    <div id='modal' class="absolute inset-0 flex items-center justify-around z-50 h-full w-full transition-all transform duration-300 ease-in-out top-[50rem]" >
-				{% csrf_token %}
-				<label id='image-container' for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
-					<div class="flex flex-col items-center justify-center pt-5 pb-6">
-						<p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span class="font-semibold">Click to upload</span> or drag and drop
-							<input id="dropzone-file" class="hidden" type="file" accept=".jpeg,.png,.jpg" onchange="sendImageToServer(this.files[0])" />
-						</p>											
-						<p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
-					</div>
-				</label>
-				<div class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
-					<div class="flex flex-col items-center justify-center ">
-						<p class="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">Output</p>
-						<canvas id="chart" class="hidden h-full w-full"></canvas>
-					</div>
+		</div>
+		<div id='modal' class="absolute inset-0 h-2/3 w-3/4 m-auto transition-all transform ease-in-out z-50 top-[100rem]">
+			<div class="flex items-center justify-around h-full w-full">
+			{% csrf_token %}
+			<label id='image-container' for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 ">
+				<div class="flex flex-col items-center justify-center pt-5 pb-6">
+					<p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span class="font-semibold">Click to upload</span> or drag and drop
+						<input id="dropzone-file" class="hidden" type="file" accept=".jpeg,.png,.jpg" onchange="sendImageToServer(this.files[0])" />
+					</p>											
+					<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or JPEG</p>
 				</div>
-				<button onclick="closeModal()" class="absolute top-0 right-0 bg-red-600 mt-1 p-2 text-center text-white rounded-full">
-					&times;
-				</button>
+			</label>
+			<div class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg dark:bg-gray-700 ">
+				<div class="flex flex-col items-center justify-center h-full w-full">
+					<p id='outputText' class="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">Output</p>
+					<div id="chartContainer" class="hidden h-full w-full"></div>
+				</div>
 			</div>
+			</div>
+			<button onclick="closeModal()" class="absolute top-0 right-0 bg-red-600 mt-1 mr-1 p-2 items-center text-center text-white rounded-full">
+				&times;
+			</button>
+			<button onclick="clearImage()" class="absolute left-1/4 bg-red-600 p-3 px-4 text-white text-2xl rounded-md">Clear</button>
 		</div>
 	  </section>
   </body>
+
+	//To open or close modal
+	<script>
+		const modal = document.getElementById('modal');
+		
+		function showModal() {
+			modal.classList.remove('top-[100rem]');
+			modal.classList.add('top-0');
+		}
+		
+		function closeModal() {
+			modal.classList.remove('top-0');
+			modal.classList.add('top-[100rem]');
+		}
+	</script>
 
 	<script>
 		// Function to clear the displayed image
@@ -72,6 +90,9 @@
 		function clearImage() {
 			const container = document.getElementById('image-container');
 			container.innerHTML = originalContent;
+			const chartContainer = document.getElementById('chartContainer');
+            chartContainer.innerHTML = '';
+
 		}
 
 		function displayImage(file) {
@@ -82,54 +103,62 @@
 			reader.onload = function() {
 				const img = document.createElement('img');
 				img.src = reader.result;
+				img.className = 'h-2/3 w-fit m-auto'
 				container.appendChild(img);
-		
-				// Create and append the clear button
-				const clearButton = document.createElement('button');
-				clearButton.textContent = 'Clear';
-				
-				clearButton.style.color = 'white';
-				clearButton.style.backgroundColor = '#b91c1c'; // bg-red-700
-				clearButton.style.fontWeight = '500'; // font-medium
-				clearButton.style.borderRadius = '0.5rem'; // rounded-lg
-				clearButton.style.fontSize = '0.875rem'; // text-sm
-				clearButton.style.padding = '0.625rem 1.25rem'; // px-5 py-2.5
-		  
-				// Add hover and focus styles
-				clearButton.style.hover = {
-				  backgroundColor: '#c53030', // hover:bg-red-800
-				};
-		  
-				clearButton.style.focus = {
-				  boxShadow: '0 0 0 3px rgba(185, 28, 28, 0.5)', // dark:focus:ring-red-900
-				};
-				
-				clearButton.addEventListener('click', clearImage);
-				container.appendChild(clearButton);
 			}
 			reader.readAsDataURL(file);
 			}
-		}
-		
-	</script>
-
-  	//To open or close modal
-  	<script>
-		const modal = document.getElementById('modal');
-		
-		function showModal() {
-			modal.classList.remove('top-[50rem]');
-			modal.classList.add('top-0');
-		}
-		
-		function closeModal() {
-			modal.classList.remove('top-0');
-			modal.classList.add('top-[50rem]');
 		}
 	</script>
 
 	<script>
 		let myChart;
+
+        function createChart(dataPoints) {
+            // Clear the existing chart container
+            const chartContainer = document.getElementById('chartContainer');
+            chartContainer.innerHTML = '';
+
+            // Create a new canvas element
+            const canvas = document.createElement('canvas');
+            canvas.id = 'chart';
+            canvas.className = 'h-full w-full';
+            chartContainer.appendChild(canvas);
+
+            // Create the chart
+            chart = new CanvasJS.Chart(canvas, {
+                animationEnabled: true,
+                backgroundColor: "#2f2f2f",
+                title: {
+                    text: "Dog Breed Distribution",
+                    fontColor: "white",
+                    fontFamily: "'Poppins', sans-serif"
+                },
+                legend: {
+                    fontColor: "white",
+                    fontFamily: "'Poppins', sans-serif",
+                    verticalAlign: "center",
+                    horizontalAlign: "right"
+                },
+                data: [{
+                    type: "doughnut",
+                    startAngle: 60,
+                    innerRadius: "65%",
+                    showInLegend: true,
+                    legendText: "{label}: {y}%",
+                    indexLabelFontSize: 14,
+                    indexLabelFontColor: "white",
+                    indexLabelFontFamily: "'Poppins', sans-serif",
+                    dataPoints: dataPoints
+                }]
+            });
+
+            chart.render();
+
+            // Show the chart container
+            chartContainer.classList.remove('hidden');
+        }
+
 		function sendImageToServer(file) {
 			displayImage(file);
 			const formData = new FormData();
@@ -140,97 +169,42 @@
 			fetch('/predict', {
 				method: 'POST',
 				body: formData
-			})
-			.then(response => response.json())
-			.then(data => {
+			  })
+			  .then(response => response.json())
+			  .then(data => {
 				// Handle the JSON response from the server
 				console.log(data);
 		
 				// Check if the response contains an error
 				if (data.error) {
-					const outputDiv = document.getElementById('chart');
-					outputDiv.textContent = data.error;
-					return;
+				  const outputDiv = document.getElementById('outputText');
+				  outputDiv.textContent = data.error;
+				  return;
 				}
-		
-				// Get the canvas element
-				const ctx = document.getElementById('chart').getContext('2d');
 
-				if (myChart) {
-					myChart.destroy();
-				}
+				const colorPalette = [
+					'#9966FF',
+					'#FF9F40',
+					'#8AC926'
+				  ];
 
 				const filteredData = Object.entries(data).filter(([label, value]) => value !== 0);
 				const labels = filteredData.map(([label, value]) => label);
 				const values = filteredData.map(([label, value]) => value);
-
-				const colorPalette = [
-				'#9966FF',
-				'#FF9F40', '#8AC926'
-				];
-
-				// Create the chart data
-				const chartData = {
-					labels: labels,
-					datasets: [{
-					  data: values,
-					  backgroundColor: colorPalette.slice(0, labels.length),
-					  borderColor: 'white',
-					  borderWidth: 2
-					}]
-				  };
-				  
-				  // Create the chart options
-				  const options = {
-					responsive: true,
-					maintainAspectRatio: true,
-					cutout: '65%',
-					plugins: {
-					  legend: {
-						position: 'right',
-						labels: {
-						  font: {
-							size: 14,
-							family: "'Poppins', sans-serif",
-							color: 'white'
-						  },
-						  padding: 5
-						}
-					  },
-					  tooltip: {
-						callbacks: {
-						  label: function(context) {
-							let label = context.label || '';
-							if (label) {
-							  label += ': ';
-							}
-							if (context.parsed !== null) {
-							  label += (context.parsed).toFixed(2) + '%';
-							}
-							return label;
-						  }
-						}
-					  }
-					},
-					animation: {
-					  animateScale: true,
-					  animateRotate: true
-					}
-				  };
-				  
-				  // Create the donut chart
-				  const myChart = new Chart(ctx, {
-					type: 'doughnut',
-					data: chartData,
-					options: options
-				  });
-				ctx.classList.remove('hidden');
-
-
-			})
-			.catch(error => {
+		
+				// Prepare dataPoints for the chart
+				const dataPoints = labels.map((label, index) => ({
+					y: values[index],
+					label: label,
+					color: colorPalette[index % colorPalette.length]
+				  }));
+		
+				// Create the chart with the received data
+				createChart(dataPoints);
+			  })
+			  .catch(error => {
 				console.error('Error:', error);
-			});
-		}
+			  });
+			}
 	</script>
 </html>
