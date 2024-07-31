@@ -41,18 +41,18 @@
 				What's My Dog's Breed?
 		  	</button>
 		</div>
-		<div id='modal' class="absolute inset-0 h-2/3 w-3/4 m-auto transition-all transform ease-in-out z-50 top-[100rem]">
-			<div class="flex items-center justify-around h-full w-full">
+		<div id='modal' class="absolute inset-0 h-2/3 w-3/4 m-auto transition-all z-50 top-[100rem]">
+			<div class="flex items-center justify-around h-full w-full gap-1 backdrop-blur-xl">
 			{% csrf_token %}
-			<label id='image-container' for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 ">
+			<label id='image-container' for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full p-3 rounded-lg cursor-pointer bg-slate-800 hover:bg-slate-900 dark:bg-gray-900 dark:hover:bg-gray-950">
 				<div class="flex flex-col items-center justify-center pt-5 pb-6">
-					<p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span class="font-semibold">Click to upload</span> or drag and drop
+					<p class="mb-2 text-sm text-gray-500 text-center"><span class="font-semibold">Click to upload</span> or drag and drop
 						<input id="dropzone-file" class="hidden" type="file" accept=".jpeg,.png,.jpg" onchange="sendImageToServer(this.files[0])" />
 					</p>											
 					<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or JPEG</p>
 				</div>
 			</label>
-			<div class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg dark:bg-gray-700 ">
+			<div class="flex flex-col items-center justify-center w-full h-full p-3 rounded-lg bg-slate-800 dark:bg-gray-900">
 				<div class="flex flex-col items-center justify-center h-full w-full">
 					<p id='outputText' class="mb-2 text-sm text-gray-500 dark:text-gray-400 font-semibold">Output</p>
 					<div id="chartContainer" class="hidden h-full w-full"></div>
@@ -112,40 +112,22 @@
 	</script>
 
 	<script>
-		let myChart;
+		var myChart;
 
         function createChart(dataPoints) {
             // Clear the existing chart container
             const chartContainer = document.getElementById('chartContainer');
             chartContainer.innerHTML = '';
 
-            // Create a new canvas element
-            const canvas = document.createElement('canvas');
-            canvas.id = 'chart';
-            canvas.className = 'h-full w-full';
-            chartContainer.appendChild(canvas);
-
             // Create the chart
-            chart = new CanvasJS.Chart(canvas, {
+            myChart = new CanvasJS.Chart('chartContainer', {
                 animationEnabled: true,
-                backgroundColor: "#2f2f2f",
-                title: {
-                    text: "Dog Breed Distribution",
-                    fontColor: "white",
-                    fontFamily: "'Poppins', sans-serif"
-                },
-                legend: {
-                    fontColor: "white",
-                    fontFamily: "'Poppins', sans-serif",
-                    verticalAlign: "center",
-                    horizontalAlign: "right"
-                },
+                backgroundColor: "#111827",
+                
                 data: [{
                     type: "doughnut",
                     startAngle: 60,
-                    innerRadius: "65%",
-                    showInLegend: true,
-                    legendText: "{label}: {y}%",
+                    innerRadius: "85",
                     indexLabelFontSize: 14,
                     indexLabelFontColor: "white",
                     indexLabelFontFamily: "'Poppins', sans-serif",
@@ -153,7 +135,7 @@
                 }]
             });
 
-            chart.render();
+            myChart.render();
 
             // Show the chart container
             chartContainer.classList.remove('hidden');
@@ -182,12 +164,6 @@
 				  return;
 				}
 
-				const colorPalette = [
-					'#9966FF',
-					'#FF9F40',
-					'#8AC926'
-				  ];
-
 				const filteredData = Object.entries(data).filter(([label, value]) => value !== 0);
 				const labels = filteredData.map(([label, value]) => label);
 				const values = filteredData.map(([label, value]) => value);
@@ -196,7 +172,7 @@
 				const dataPoints = labels.map((label, index) => ({
 					y: values[index],
 					label: label,
-					color: colorPalette[index % colorPalette.length]
+					indexLabel: `${label}: ${values[index]}%`
 				  }));
 		
 				// Create the chart with the received data
