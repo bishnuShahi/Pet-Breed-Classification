@@ -57,4 +57,4 @@
 
 
 ## Additional Note:
-(It hasn't been deployed because to make use of its main feature "Breed Classification" we need to deploy the API too which I couldn't due to some limitations on "Free-Tier" on deployment service providers although I reduced its size by applying some logic myself rather than using heavy libraries but still too big.)
+(It hasn't been deployed because to make use of its main feature "Breed Classification" we need to deploy the API too which I couldn't due to some limitations on "Free-Tier" on deployment service providers although I optimized it size futher but it's still too big.)
