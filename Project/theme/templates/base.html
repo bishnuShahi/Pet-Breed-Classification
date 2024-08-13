@@ -62,13 +62,13 @@
 			<button onclick="closeModal()" class="absolute top-0 right-0 bg-red-600 mt-1 mr-1 p-2 items-center text-center text-white rounded-full">
 				&times;
 			</button>
-			<button onclick="clearImage()" class="absolute left-1/4 bg-red-600 p-3 px-4 text-white text-2xl rounded-md">Clear</button>
+			<button onclick="clearImage()" class="absolute w-full p-3 px-4 bg-slate-800 hover:bg-slate-00 dark:bg-gray-950 dark:hover:bg-gray-900 text-white border-2 border-l-teal-100 text-xl rounded-md">Clear</button>
 		</div>
 	  </section>
   </body>
 
-	//To open or close modal
-	<script>
+  <script>
+		//To open or close modal
 		const modal = document.getElementById('modal');
 		
 		function showModal() {
@@ -92,7 +92,8 @@
 			container.innerHTML = originalContent;
 			const chartContainer = document.getElementById('chartContainer');
             chartContainer.innerHTML = '';
-
+			const outputContainer = document.getElementById('outputText');
+			outputContainer.innerHTML = 'Output';
 		}
 
 		function displayImage(file) {
