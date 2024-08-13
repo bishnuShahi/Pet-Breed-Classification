@@ -29,12 +29,7 @@
     pip install -r requirements.txt
     ```
 
-4. Set up the database:
-    ```bash
-    python manage.py migrate
-    ```
-
-5. Create a superuser to access the Django admin:
+4. Create a superuser to access the Django admin:
     ```bash
     python manage.py createsuperuser
     ```
@@ -55,6 +50,3 @@
 
 4. Access the Django admin at `http://127.0.0.1:8000/admin/`.
 
-
-## Additional Note:
-(It hasn't been deployed because to make use of its main feature "Breed Classification" we need to deploy the API too which I couldn't due to some limitations on "Free-Tier" on deployment service providers although I optimized it size futher but it's still too big.)
