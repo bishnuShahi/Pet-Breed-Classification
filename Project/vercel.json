@@ -24,7 +24,9 @@
     }
   ],
   "env": {
-    "DJANGO_SETTINGS_MODULE": "Project.settings"
+    "DJANGO_SETTINGS_MODULE": "Project.settings",
+    "SECRET_KEY": "@-sxq%)*06_+ug+x^kvpf807saglh0aif_*!((#^ol@v9jz%y%",
+    "PREDICT_API"="http://3.108.28.88:8000/predict"
   },
   "build": {
     "env": {
