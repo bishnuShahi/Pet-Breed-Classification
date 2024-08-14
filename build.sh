@@ -1,5 +1,7 @@
 echo "Building project packages..."
+npm install
 python3 -m pip install -r requirements.txt
+python3 manage.py tailwind build
 
 echo "Migrating Database..."
 python3 manage.py makemigrations --noinput
