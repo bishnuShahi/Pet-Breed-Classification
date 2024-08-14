@@ -28,8 +28,15 @@
     ```bash
     pip install -r requirements.txt
     ```
+4. Make migrations:
+    ```bash
+    python manage.py migrate
+    ```
+    ```bash
+    python manage.py makemigrations
+    ```
 
-4. Create a superuser to access the Django admin:
+5. Create a superuser to access the Django admin:
     ```bash
     python manage.py createsuperuser
     ```
