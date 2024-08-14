@@ -13,9 +13,6 @@
       "use": "@vercel/static"
     }
   ],
-  "build": {
-    "command": "python manage.py tailwind build && python manage.py collectstatic --noinput"
-  },
   "routes": [
     {
       "src": "/static/(.*)",
