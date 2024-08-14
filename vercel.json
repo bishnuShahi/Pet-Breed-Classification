@@ -2,15 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "manage.py",
+      "src": "Project/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "installCommand": "pip install -r requirements.txt && npm install"
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.12"
       }
     },
     {
-      "src": "staticfiles/**/*",
-      "use": "@vercel/static"
+      "src": "build.sh",
+      "use": "@vercel/static",
+      "config": {
+        "distDir": "staticfiles"
+      }
     }
   ],
   "routes": [
@@ -20,7 +24,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "Project/wsgi.py"
     }
   ]
 }
