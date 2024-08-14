@@ -26,13 +26,4 @@
       "dest": "manage.py"
     }
   ]
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "Project.settings"
-  },
-  "build": {
-    "env": {
-      "DJANGO_SETTINGS_MODULE": "Project.settings"
-    }
-  }
 }
