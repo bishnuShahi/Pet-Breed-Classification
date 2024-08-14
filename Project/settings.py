@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 ]
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 #internal IPS
 INTERNAL_IPS = [
