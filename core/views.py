@@ -6,10 +6,6 @@ from django.http import JsonResponse
 import requests
 import logging
 import os
-from dotenv import load_dotenv
-load_dotenv()
-
-PREDICT_API = os.environ.get('PREDICT_API')
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +93,7 @@ def classify_image(request):
 
         try:
             # Send the image file to the FastAPI API
-            response = requests.post(PREDICT_API, files=files)
+            response = requests.post('http://3.108.28.88:8000/predict', files=files)
             logger.info(f'FastAPI response status code: {response.status_code}')
 
             if response.status_code == 200:
