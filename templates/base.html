@@ -1,4 +1,3 @@
-{% load compress %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -14,9 +13,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-	{% compress css %}
-    <link rel="stylesheet" href="{% static 'src/output.css' %}">
-    {% endcompress %}
+    <link rel="stylesheet" href="/static/src/output.css">
   </head>
   <body class="overflow-hidden">
     <nav class="flex justify-around bg-yellow-950 text-neutral-50 h-12 items-center" style="font-family: Poppins;">
