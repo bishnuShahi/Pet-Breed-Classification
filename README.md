@@ -7,8 +7,6 @@
 ## Requirements
 - Python 3.11 or higher
 - Django 5.0.7
-- django-browser-reload 1.13.0
-- django-tailwind 3.8.0
 
 ## Installation
 
