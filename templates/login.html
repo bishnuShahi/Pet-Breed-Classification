@@ -1,4 +1,5 @@
-{% load static tailwind_tags %}
+{% load compress %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang='en'>
@@ -7,7 +8,9 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-        {% tailwind_css %}
+        {% compress css %}
+        <link rel="stylesheet" href="{% static 'src/output.css' %}">
+        {% endcompress %}
     </head>
 <body class="h-screen w-full flex items-center justify-center relative text-[15px]">
   <section id='section' class="relative h-full w-full bg-cover bg-no-repeat opacity-70 flex justify-center" style="background-image: url('{% static 'img/cat.png' %}');"></section>
@@ -31,6 +34,5 @@
             <div class="gap-[5px]">Don't have an account yet? <a href="register" class="hover:text-blue-600 hover:underline">Sign up</a></div>
         </form>
     </section>
-    
 </body>
 </html>
