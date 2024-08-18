@@ -12,7 +12,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <link rel="stylesheet" href="../static/src/output.css">
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
   </head>
   <body class="overflow-hidden">
     <nav class="flex justify-around bg-yellow-950 text-neutral-50 h-12 items-center" style="font-family: Poppins;">
@@ -27,7 +27,7 @@
 			{% endif %}
 		</div>		
 	</nav>
-	<section id='section' class="relative h-[93vh] bg-cover bg-no-repeat opacity-70 flex justify-center" style="background-image: url('../static/img/cat.png');">
+	<section id='section' class="relative h-[93vh] bg-cover bg-no-repeat opacity-70 flex justify-center" style="background-image: url( {% static 'img/cat.png' %});">
 		<div class="absolute flex flex-col justify-center items-center top-[30%]">
 		  	<h1 class="text-[50px] w-auto font-bold text-center mb-5">
 				Discover the perfect pet
